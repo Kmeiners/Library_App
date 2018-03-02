@@ -24,9 +24,15 @@ def search():
     searchBox.delete(0, tk.END)
     searchBox.insert(0, user.get() + "   " + time.get() + "   " + room.get())
 
-def createEntry():
-    tabControl.select(newTab)
-
+def createNewEntry():
+    answer = msg.askyesno("Create New Reservation", newUser.get()
+                          + "  " + newTime.get()
+                          + "  " + newRoom.get() +"\n\n"
+                          + "Are you sure you want to create this entry?")
+    if answer == True:
+        msg.showinfo("Reservation Created", "The Reservation was Successfully Created.")
+        clearNewEntry()
+           
 def editEntry():
     return 0
 
@@ -89,9 +95,6 @@ room_chosen.current(0)
 login_button = ttk.Button(Frame1, text="Search", command= search)
 login_button.grid(column=4, row=1, padx=(10,20))
 
-new_button = ttk.Button(Frame2, text="New", command= createEntry)
-new_button.grid(column=0, row=0, padx=5, pady=5)
-
 manage_button = ttk.Button(Frame2, text= "Edit", command= editEntry)
 manage_button.grid(column=1, row=0, padx=5, pady=5)
 
@@ -135,8 +138,11 @@ newRoomChosen.grid(column=1,row=2, padx=(5,50), pady=10, sticky=W)
 newRoomChosen.current(0)
 
 # Buttons
+newCreateButton = ttk.Button(newFrame, text= "Create", command= createNewEntry)
+newCreateButton.grid(row=3, columnspan=2, pady=20)
+
 newClearButton = ttk.Button(newFrame, text= "Clear", command= clearNewEntry)
-newClearButton.grid(column=1, row=3)
+newClearButton.grid(row=3, columnspan=2, pady=20, padx=(0,20), sticky=E)
 
 #====================
 #   Menu Bar
