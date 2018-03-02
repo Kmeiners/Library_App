@@ -14,8 +14,8 @@ win.title("Administrator GUI 2")
 tabControl = ttk.Notebook(win)
 viewTab = ttk.Frame(tabControl)
 tabControl.add(viewTab, text="View")
-manageTab = ttk.Frame(tabControl)
-tabControl.add(manageTab, text="Manage")
+newTab = ttk.Frame(tabControl)
+tabControl.add(newTab, text="New")
 
 tabControl.pack(expand=1, fill="both")
 
@@ -25,7 +25,7 @@ def search():
     searchBox.insert(0, user.get() + "   " + time.get() + "   " + room.get())
 
 def createEntry():
-    return 0
+    tabControl.select(newTab)
 
 def editEntry():
     return 0
@@ -35,8 +35,15 @@ def deleteEntry():
     if answer == True:
         searchBox.delete(0, tk.END)
 
+def clearNewEntry():
+    newUserField.delete(0,END)
+    newTimeChosen.current(0)
+    newRoomChosen.current(0)
         
-    
+#====================
+#   Search Tab
+#====================
+
 # Frame Creation
 Frame1 = ttk.LabelFrame(viewTab, text="Search For Reservations")
 Frame1.grid(column=0, row=0, padx=30, pady=(30,0))
@@ -67,13 +74,13 @@ searchBox.grid(column= 0, columnspan= 5, padx= 20, pady = 20)
 # Drop-Down List
 time = tk.StringVar()
 time_chosen = ttk.Combobox(Frame1, width=15, textvariable= time, state="readonly")
-time_chosen["values"] = ("10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM")
+time_chosen["values"] = ("", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM")
 time_chosen.grid(column=1,row=1, padx=(10,10), pady=10)
 time_chosen.current(0)
 
 room = tk.StringVar()
 room_chosen = ttk.Combobox(Frame1, width=15, textvariable= room, state="readonly")
-room_chosen["values"] = ("POTOMAC", "SHENANDOAH", "CATOCTIN", "SOUTH MOUNTAIN")
+room_chosen["values"] = ("", "POTOMAC", "SHENANDOAH", "CATOCTIN", "SOUTH MOUNTAIN")
 room_chosen.grid(column=2,row=1, padx=(10,10), pady=10)
 room_chosen.current(0)
 
@@ -90,6 +97,50 @@ manage_button.grid(column=1, row=0, padx=5, pady=5)
 
 delete_button = ttk.Button(Frame2, text= "Delete", command= deleteEntry)
 delete_button.grid(column=2, row=0, padx=5, pady=5)
+
+#====================
+#   Create Tab
+#====================
+
+# Frame Creation
+newFrame = ttk.LabelFrame(newTab, text="Create a New Reservation")
+newFrame.grid(column=0, row=0, padx=30, pady=(30,0))
+
+# Labels
+newEmailLabel = ttk.Label(newFrame, text="E-mail Address:")
+newEmailLabel.grid(column=0, row=0, padx=(50,5), pady=(30,10), sticky=E)
+
+newTimeLabel = ttk.Label(newFrame, text="Time:")
+newTimeLabel.grid(column=0, row=1, padx=(50,5), pady=10, sticky=E)
+
+newRoomLabel = ttk.Label(newFrame, text="Room:")
+newRoomLabel.grid(column=0, row=2, padx=(50,5), pady=10, sticky=E)
+
+# Text Boxes
+newUser = tk.StringVar()
+newUserField = ttk.Entry(newFrame, width=20, textvariable=newUser)
+newUserField.grid(column=1, row=0, padx=(5,50), pady=(30,10), sticky=W)
+
+# Drop-Down List
+newTime = tk.StringVar()
+newTimeChosen = ttk.Combobox(newFrame, width=17, textvariable= newTime, state="readonly")
+newTimeChosen["values"] = ("", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM")
+newTimeChosen.grid(column=1,row=1, padx=(5,50), pady=10, sticky=W)
+time_chosen.current(0)
+
+newRoom = tk.StringVar()
+newRoomChosen = ttk.Combobox(newFrame, width=17, textvariable= newRoom, state="readonly")
+newRoomChosen["values"] = ("", "POTOMAC", "SHENANDOAH", "CATOCTIN", "SOUTH MOUNTAIN")
+newRoomChosen.grid(column=1,row=2, padx=(5,50), pady=10, sticky=W)
+newRoomChosen.current(0)
+
+# Buttons
+newClearButton = ttk.Button(newFrame, text= "Clear", command= clearNewEntry)
+newClearButton.grid(column=1, row=3)
+
+#====================
+#   Menu Bar
+#====================
 
 # Creating a Menu Bar
 menu_bar = Menu(win)
